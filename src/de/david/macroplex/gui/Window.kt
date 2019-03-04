@@ -1,6 +1,10 @@
-package de.david.macroplex
+package de.david.macroplex.gui
 
 import de.david.javalib.MonitorController
+import de.david.macroplex.MaxSize
+import de.david.macroplex.MinSize
+import de.david.macroplex.Settings
+import de.david.macroplex.toCenter
 import processing.core.PApplet
 import processing.core.PVector
 
@@ -125,7 +129,10 @@ class Window : PApplet {
             random(height.toFloat()),
             //random(depth.toFloat()),
             PVector(xVel, yVel),
-            (random(MinSize.MIN, MaxSize.MAX)-MinSize.MIN)/(MaxSize.MAX-MinSize.MIN),
+            (random(
+                MinSize.MIN,
+                MaxSize.MAX
+            )- MinSize.MIN)/(MaxSize.MAX - MinSize.MIN),
             color(r, g, b)
         )
     }

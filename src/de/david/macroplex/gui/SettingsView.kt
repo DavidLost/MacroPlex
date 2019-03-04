@@ -1,18 +1,24 @@
-package de.david.macroplex
+package de.david.macroplex.gui
 
+import de.david.macroplex.*
 import javafx.geometry.Pos
 import javafx.scene.control.Label
 import processing.core.PApplet
 import tornadofx.*
-import java.awt.Frame
 
-class SettingsView : View(MyApp.APP_NAME+" Settings") {
+class SettingsView : View(MyApp.APP_NAME +" Settings") {
 
     companion object {
         val NO_UPDATE = -1
     }
 
-    val currentSettings = Settings(PointAmount.DEFAULT, SpeedFactor.DEFAULT, ConnectionDistance.DEFAULT, MinSize.DEFAULT, MaxSize.DEFAULT)
+    val currentSettings = Settings(
+        PointAmount.DEFAULT,
+        SpeedFactor.DEFAULT,
+        ConnectionDistance.DEFAULT,
+        MinSize.DEFAULT,
+        MaxSize.DEFAULT
+    )
     var updateState = NO_UPDATE
 
     lateinit var pointAmountLabel: Label
@@ -83,7 +89,10 @@ class SettingsView : View(MyApp.APP_NAME+" Settings") {
         hbox {
             alignment = Pos.CENTER
             label("Connecting Distance")
-            slider(ConnectionDistance.MIN, ConnectionDistance.MAX) {
+            slider(
+                ConnectionDistance.MIN,
+                ConnectionDistance.MAX
+            ) {
                 value = ConnectionDistance.DEFAULT.toDouble()
                 majorTickUnit = max
                 prefWidth = 300.0
