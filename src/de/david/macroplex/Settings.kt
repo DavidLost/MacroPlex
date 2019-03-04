@@ -1,9 +1,5 @@
 package de.david.macroplex
 
-import de.david.macroplex.settings.*
-import tornadofx.getProperty
-import tornadofx.property
-
 class Settings(var pointAmount: PointAmount, var maxSpeed: MaxSpeed, var minDist: MinDist, var minSize: MinSize, var maxSize: MaxSize, var frameSizeFactor: Float) {
 
     /*companion object {
@@ -32,4 +28,49 @@ class Settings(var pointAmount: PointAmount, var maxSpeed: MaxSpeed, var minDist
 
     var frameSizeFactor by property<Float>(1.5f)
     fun frameSizeFactorProperty() = getProperty(Settings::frameSizeFactor)*/
+}
+
+class PointAmount {
+    var value = DEFAULT
+    companion object {
+        val DEFAULT = 36
+        val MIN = 1
+        val MAX = 200
+    }
+}
+
+class MaxSpeed {
+    var value = DEFAULT
+    companion object {
+        val DEFAULT = 1.8f
+        val MIN = 0.1
+        val MAX = 10
+    }
+}
+
+class MinDist {
+    var value = DEFAULT
+    companion object {
+        val DEFAULT = 210f
+        val MIN = 1
+        val MAX = 1000
+    }
+}
+
+class MinSize {
+    var value = DEFAULT
+    companion object {
+        val DEFAULT = 3f
+        val MIN = 1
+        val MAX = 1000
+    }
+}
+
+class MaxSize {
+    var value = DEFAULT
+    companion object {
+        val DEFAULT = 12f
+        val MIN = 1
+        val MAX = 1000
+    }
 }

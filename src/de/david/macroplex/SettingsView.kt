@@ -29,7 +29,7 @@ class SettingsView : View(MyApp.APP_NAME+" Settings") {
             "--location=0,0",
             MyApp.APP_NAME
         )
-        PApplet.runSketch(args, Window(this, currentSettings, null))
+        PApplet.runSketch(args, Window(this, currentSettings))
     }
 
     override val root = vbox(20) {
@@ -46,8 +46,8 @@ class SettingsView : View(MyApp.APP_NAME+" Settings") {
                 prefWidth = 300.0
                 //showTickLabelsProperty().setValue(true)
                 valueProperty().onChange {
-                    currentSettings.pointAmount.setValue(PApplet.round(it.toFloat()))
-                    pointAmountLabel.text = currentSettings.pointAmount.toString()
+                    currentSettings.pointAmount.value = PApplet.round(it.toFloat())
+                    pointAmountLabel.text = currentSettings.pointAmount.value.toString()
                     updateAvailable = true
                 }
             }
@@ -67,8 +67,8 @@ class SettingsView : View(MyApp.APP_NAME+" Settings") {
                 prefWidth = 300.0
                 //showTickLabelsProperty().setValue(true)
                 valueProperty().onChange {
-                    currentSettings.maxSpeed.setValue(it.toFloat())
-                    updateLabelValue(maxSpeedLabel, currentSettings.maxSpeed.getValue())
+                    currentSettings.maxSpeed.value = it.toFloat()
+                    updateLabelValue(maxSpeedLabel, currentSettings.maxSpeed.value)
                     updateAvailable = true
                 }
             }
@@ -86,8 +86,8 @@ class SettingsView : View(MyApp.APP_NAME+" Settings") {
                 majorTickUnit = max
                 prefWidth = 300.0
                 valueProperty().onChange {
-                    currentSettings.minDist.setValue(it.toFloat())
-                    updateLabelValue(minDistLabel, currentSettings.minDist.getValue())
+                    currentSettings.minDist.value = it.toFloat()
+                    updateLabelValue(minDistLabel, currentSettings.minDist.value)
                     updateAvailable = true
                 }
             }
@@ -106,8 +106,8 @@ class SettingsView : View(MyApp.APP_NAME+" Settings") {
                 prefWidth = 300.0
                 //showTickLabelsProperty().setValue(true)
                 valueProperty().onChange {
-                    currentSettings.minSize.setValue(it.toFloat())
-                    updateLabelValue(minSizeLabel, currentSettings.minSize.getValue())
+                    currentSettings.minSize.value = it.toFloat()
+                    updateLabelValue(minSizeLabel, currentSettings.minSize.value)
                     updateAvailable = true
                 }
             }
@@ -126,8 +126,8 @@ class SettingsView : View(MyApp.APP_NAME+" Settings") {
                 prefWidth = 300.0
                 //showTickLabelsProperty().setValue(true)
                 valueProperty().onChange {
-                    currentSettings.maxSize.setValue(it.toFloat())
-                    updateLabelValue(maxSizeLabel, currentSettings.maxSize.getValue())
+                    currentSettings.maxSize.value = it.toFloat()
+                    updateLabelValue(maxSizeLabel, currentSettings.maxSize.value)
                     updateAvailable = true
                 }
             }

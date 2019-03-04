@@ -18,20 +18,19 @@ class Window : PApplet {
     }
 
     /*fun updateSettings(settings: Settings) {
-        this.pointAmount = settings.pointAmount.getValue()
-        this.maxSpeed = settings.maxSpeed.getValue()
-        this.minDist = settings.minDist.getValue()
-        this.minSize = settings.minSize.getValue()
-        this.maxSize = settings.maxSize.getValue()
+        this.pointAmount = settings.pointAmount.value
+        this.maxSpeed = settings.maxSpeed.value
+        this.minDist = settings.minDist.value
+        this.minSize = settings.minSize.value
+        this.maxSize = settings.maxSize.value
         //frameResized(round(MonitorController.getWidth()/settings.frameSizeFactor), round(MonitorController.getHeight()/settings.frameSizeFactor))
         updatePointSettings()
     }*/
 
     fun updatePointSettings() {
-        println("c")
         for (point in points) {
-            point.vel = PVector(random(-settings.maxSpeed.getValue(), settings.maxSpeed.getValue()), random(-settings.maxSpeed.getValue(), settings.maxSpeed.getValue()))
-            point.size = random(settings.minSize.getValue(), settings.maxSize.getValue())
+            point.vel = PVector(random(-settings.maxSpeed.value, settings.maxSpeed.value), random(-settings.maxSpeed.value, settings.maxSpeed.value))
+            point.size = random(settings.minSize.value, settings.maxSize.value)
         }
     }
 
@@ -41,7 +40,7 @@ class Window : PApplet {
 
     override fun setup() {
 
-        for (i in 0 until pointAmount) {
+        for (i in 0 until settings.pointAmount.value) {
             val r = random(25f)
             val g = random(185f)+60f
             val b = random(150f)+105f
