@@ -21,8 +21,11 @@ class Window : PApplet {
 
     override fun setup() {
 
-        for (i in 0 until settings.pointAmount.value) {
-            addNewPoint()
+        for (i in 0 until settings.pointAmount) {
+            points.add(getNewPoint())
+        }
+        for (point in points) {
+            println("${point.size} - ${point.drawSize}")
         }
     }
 
@@ -38,9 +41,9 @@ class Window : PApplet {
             point.update()
             for (point2 in points) {
                 val dist = dist(point.x, point.y, point2.x, point2.y)
-                if (dist < settings.minDist.value) {
-                    stroke((red(point.color)+red(point2.color))/2,(green(point.color)+green(point2.color))/2, (blue(point.color)+blue(point2.color))/2, map(dist, settings.minDist.value, 0f, 10f, 255f))
-                    strokeWeight(map(dist, settings.minDist.value, 0f, (point.size+point2.size)/20f, (point.size+point2.size)/6f))
+                if (dist < settings.connectionDistance) {
+                    stroke((red(point.color)+red(point2.color))/2,(green(point.color)+green(point2.color))/2, (blue(point.color)+blue(point2.color))/2, map(dist, settings.connectionDistance, 0f, 10f, 255f))
+                    strokeWeight(map(dist, settings.connectionDistance, 0f, (point.drawSize+point2.drawSize)/20f, (point.drawSize+point2.drawSize)/6f))
                     line(point.x, point.y, point2.x, point2.y)
                 }
             }
@@ -50,9 +53,11 @@ class Window : PApplet {
 
     inner class Point(var x: Float, var y: Float, var vel: PVector, var size: Float, var color: Int) {
 
+        var drawSize = size
+
         fun update() {
-            x += vel.x*settings.speed.value
-            y += vel.y*settings.speed.value
+            x += vel.x*settings.speedFactor
+            y += vel.y*settings.speedFactor
             //z += vel.z
             if (x >= width) x -= width
             else if (x < 0) x += width
@@ -62,8 +67,13 @@ class Window : PApplet {
             //else if (z < 0) z += depth
         }
 
+        fun updateSize() {
+            val a: Float = (MaxSize.MAX-MinSize.MIN)/(size-MinSize.MIN)
+            drawSize = (settings.minSize+settings.maxSize)/a//((MinSize.MIN+MaxSize.MAX)/size)
+        }
+
         fun draw() {
-            strokeWeight(size)
+            strokeWeight(drawSize)
             stroke(color)
             point(x, y)
         }
@@ -72,8 +82,15 @@ class Window : PApplet {
 
     fun updatePointSettings(index: Int) {
         when (index) {
-            0 -> changePointAmount(settings.pointAmount.value)
-            1 -> settings.speed.value = settingsController.currentSettings.speed.value
+            0 -> changePointAmount(settings.pointAmount)
+            1 -> updatePointSize()
+        }
+    }
+
+    fun updatePointSize() {
+        for (point in points) {
+            point.updateSize()
+            println("${point.size} with ${(MaxSize.MAX-MinSize.MIN)/(point.size-MinSize.MIN)} -> ${point.drawSize} -- ${settings.minSize} bis ${settings.maxSize}")
         }
     }
 
@@ -81,7 +98,7 @@ class Window : PApplet {
         if (newAmount == points.size) return
         else if (newAmount > points.size) {
             while (points.size < newAmount) {
-                addNewPoint()
+                points.add(getNewPoint())
             }
         }
         else {
@@ -91,7 +108,7 @@ class Window : PApplet {
         }
     }
 
-    fun addNewPoint() {
+    fun getNewPoint(): Point {
         val r = random(25f)
         val g = random(185f)+60f
         val b = random(150f)+105f
@@ -99,13 +116,13 @@ class Window : PApplet {
         if (random(2f) > 1) xVel *= -1
         var yVel = random(0.1f, 1f)
         if (random(2f) > 1) yVel *= -1
-        points.add(Point(
+        return Point(
             random(width.toFloat()),
             random(height.toFloat()),
             //random(depth.toFloat()),
             PVector(xVel, yVel),
-            random(settings.minSize.value, settings.maxSize.value),
+            random(MinSize.MIN, MaxSize.MAX),
             color(r, g, b)
-        ))
+        )
     }
 }

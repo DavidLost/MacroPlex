@@ -10,12 +10,12 @@ class SettingsView : View(MyApp.APP_NAME+" Settings") {
         val NO_UPDATE = -1
     }
 
-    val currentSettings = Settings(PointAmount(), Speed(), MinDist(), MinSize(), MaxSize(), 1.5f)
+    val currentSettings = Settings(PointAmount.DEFAULT, SpeedFactor.DEFAULT, ConnectionDistance.DEFAULT, MinSize.DEFAULT, MaxSize.DEFAULT, 1.5f)
     var updateState = NO_UPDATE
 
     lateinit var pointAmountLabel: Label
-    lateinit var speedLabel: Label
-    lateinit var minDistLabel: Label
+    lateinit var speedFactorLabel: Label
+    lateinit var connectionDistanceLabel: Label
     lateinit var minSizeLabel: Label
     lateinit var maxSizeLabel: Label
 
@@ -49,8 +49,8 @@ class SettingsView : View(MyApp.APP_NAME+" Settings") {
                 prefWidth = 300.0
                 //showTickLabelsProperty().setValue(true)
                 valueProperty().onChange {
-                    currentSettings.pointAmount.value = PApplet.round(it.toFloat())
-                    pointAmountLabel.text = currentSettings.pointAmount.value.toString()
+                    currentSettings.pointAmount = PApplet.round(it.toFloat())
+                    pointAmountLabel.text = currentSettings.pointAmount.toString()
                     updateState = 0
                 }
             }
@@ -62,56 +62,54 @@ class SettingsView : View(MyApp.APP_NAME+" Settings") {
         }
 
         hbox {
-            label("Speed")
+            label("SpeedFactor")
 
-            slider(Speed.MIN, Speed.MAX) {
-                value = Speed.DEFAULT.toDouble()
+            slider(SpeedFactor.MIN, SpeedFactor.MAX) {
+                value = SpeedFactor.DEFAULT.toDouble()
                 majorTickUnit = max
                 prefWidth = 300.0
                 //showTickLabelsProperty().setValue(true)
                 valueProperty().onChange {
-                    currentSettings.speed.value = it.toFloat()
-                    updateLabelValue(speedLabel, currentSettings.speed.value)
-                    updateState = 1
+                    currentSettings.speedFactor = it.toFloat()
+                    updateLabelValue(speedFactorLabel, currentSettings.speedFactor)
                 }
             }
 
-            label(Speed.DEFAULT.toString()) {
-                speedLabel = this
+            label(SpeedFactor.DEFAULT.toString()) {
+                speedFactorLabel = this
             }
         }
 
         hbox {
             label("Connecting Distance")
 
-            slider(MinDist.MIN, MinDist.MAX) {
-                value = MinDist.DEFAULT.toDouble()
+            slider(ConnectionDistance.MIN, ConnectionDistance.MAX) {
+                value = ConnectionDistance.DEFAULT.toDouble()
                 majorTickUnit = max
                 prefWidth = 300.0
                 valueProperty().onChange {
-                    currentSettings.minDist.value = it.toFloat()
-                    updateLabelValue(minDistLabel, currentSettings.minDist.value)
-                    updateState = 2
+                    currentSettings.connectionDistance = it.toFloat()
+                    updateLabelValue(connectionDistanceLabel, currentSettings.connectionDistance)
                 }
             }
 
-            label(MinDist.DEFAULT.toString()) {
-                minDistLabel = this
+            label(ConnectionDistance.DEFAULT.toString()) {
+                connectionDistanceLabel = this
             }
         }
 
         hbox {
             label("Min. Size")
 
-            slider(1, 32) {
+            slider(MinSize.MIN, MinSize.MAX) {
                 value = MinSize.DEFAULT.toDouble()
                 majorTickUnit = max
                 prefWidth = 300.0
                 //showTickLabelsProperty().setValue(true)
                 valueProperty().onChange {
-                    currentSettings.minSize.value = it.toFloat()
-                    updateLabelValue(minSizeLabel, currentSettings.minSize.value)
-                    updateState = 3
+                    currentSettings.minSize = it.toFloat()
+                    updateLabelValue(minSizeLabel, currentSettings.minSize)
+                    updateState = 1
                 }
             }
 
@@ -123,15 +121,15 @@ class SettingsView : View(MyApp.APP_NAME+" Settings") {
         hbox {
             label("Max. Size")
 
-            slider(1, 32) {
+            slider(MaxSize.MIN, MaxSize.MAX) {
                 value = MaxSize.DEFAULT.toDouble()
                 majorTickUnit = max
                 prefWidth = 300.0
                 //showTickLabelsProperty().setValue(true)
                 valueProperty().onChange {
-                    currentSettings.maxSize.value = it.toFloat()
-                    updateLabelValue(maxSizeLabel, currentSettings.maxSize.value)
-                    updateState = 4
+                    currentSettings.maxSize = it.toFloat()
+                    updateLabelValue(maxSizeLabel, currentSettings.maxSize)
+                    updateState = 1
                 }
             }
 
