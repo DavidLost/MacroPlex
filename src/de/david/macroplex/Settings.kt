@@ -4,9 +4,9 @@ class Settings(var pointAmount: Int, var speedFactor: Float, var connectionDista
 
 abstract class PointAmount {
     companion object {
-        val DEFAULT = 1
-        val MIN = 1
-        val MAX = 200
+        val DEFAULT = 36
+        val MIN = 0
+        val MAX = 300
     }
 }
 
@@ -14,7 +14,7 @@ abstract class SpeedFactor {
     companion object {
         val DEFAULT = 1.8f
         val MIN = 0f
-        val MAX = 10f
+        val MAX = 12f
     }
 }
 
@@ -29,15 +29,15 @@ abstract class ConnectionDistance {
 class MinSize {
     companion object {
         val DEFAULT = 3f
-        val MIN = 1f
-        val MAX = 32f
+        val MIN = 0f
+        val MAX = 128f
     }
 }
 
 class MaxSize {
     companion object {
         val DEFAULT = 12f
-        val MIN = 1f
-        val MAX = 32f
+        val MIN = 0f
+        val MAX = 128f
     }
 }

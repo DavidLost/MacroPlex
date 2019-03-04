@@ -1,5 +1,6 @@
 package de.david.macroplex
 
+import javafx.geometry.Pos
 import javafx.scene.control.Label
 import processing.core.PApplet
 import tornadofx.*
@@ -21,10 +22,12 @@ class SettingsView : View(MyApp.APP_NAME+" Settings") {
 
     override fun onDock() {
 
-        primaryStage.width = 640.0
-        primaryStage.height = 500.0
-        primaryStage.isResizable = false
         startSimulation()
+        primaryStage.width = 630.0
+        primaryStage.height = 320.0
+        primaryStage.isResizable = false
+        primaryStage.centerOnScreen()
+        primaryStage.toFront()
     }
 
     fun startSimulation() {
@@ -37,12 +40,11 @@ class SettingsView : View(MyApp.APP_NAME+" Settings") {
 
     override val root = vbox(20) {
 
-        paddingVertical = 50
-        paddingHorizontal = 120
+        alignment = Pos.CENTER
 
         hbox {
+            alignment = Pos.CENTER
             label("Point Amount")
-
             slider(PointAmount.MIN, PointAmount.MAX) {
                 value = PointAmount.DEFAULT.toDouble()
                 majorTickUnit = max
@@ -54,16 +56,14 @@ class SettingsView : View(MyApp.APP_NAME+" Settings") {
                     updateState = 0
                 }
             }
-
             label(PointAmount.DEFAULT.toString()) {
                 pointAmountLabel = this
             }
-
         }
 
         hbox {
+            alignment = Pos.CENTER
             label("SpeedFactor")
-
             slider(SpeedFactor.MIN, SpeedFactor.MAX) {
                 value = SpeedFactor.DEFAULT.toDouble()
                 majorTickUnit = max
@@ -74,15 +74,14 @@ class SettingsView : View(MyApp.APP_NAME+" Settings") {
                     updateLabelValue(speedFactorLabel, currentSettings.speedFactor)
                 }
             }
-
             label(SpeedFactor.DEFAULT.toString()) {
                 speedFactorLabel = this
             }
         }
 
         hbox {
+            alignment = Pos.CENTER
             label("Connecting Distance")
-
             slider(ConnectionDistance.MIN, ConnectionDistance.MAX) {
                 value = ConnectionDistance.DEFAULT.toDouble()
                 majorTickUnit = max
@@ -92,15 +91,14 @@ class SettingsView : View(MyApp.APP_NAME+" Settings") {
                     updateLabelValue(connectionDistanceLabel, currentSettings.connectionDistance)
                 }
             }
-
             label(ConnectionDistance.DEFAULT.toString()) {
                 connectionDistanceLabel = this
             }
         }
 
         hbox {
+            alignment = Pos.CENTER
             label("Min. Size")
-
             slider(MinSize.MIN, MinSize.MAX) {
                 value = MinSize.DEFAULT.toDouble()
                 majorTickUnit = max
@@ -119,8 +117,8 @@ class SettingsView : View(MyApp.APP_NAME+" Settings") {
         }
 
         hbox {
+            alignment = Pos.CENTER
             label("Max. Size")
-
             slider(MaxSize.MIN, MaxSize.MAX) {
                 value = MaxSize.DEFAULT.toDouble()
                 majorTickUnit = max
@@ -132,7 +130,6 @@ class SettingsView : View(MyApp.APP_NAME+" Settings") {
                     updateState = 1
                 }
             }
-
             label(MaxSize.DEFAULT.toString()) {
                 maxSizeLabel = this
             }

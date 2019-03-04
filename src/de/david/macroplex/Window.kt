@@ -21,11 +21,10 @@ class Window : PApplet {
 
     override fun setup() {
 
+        surface.toCenter(width, height)
+
         for (i in 0 until settings.pointAmount) {
             points.add(getNewPoint())
-        }
-        for (point in points) {
-            println("${point.size} - ${point.drawSize}")
         }
     }
 
@@ -51,9 +50,13 @@ class Window : PApplet {
         }
     }
 
-    inner class Point(var x: Float, var y: Float, var vel: PVector, var size: Float, var color: Int) {
+    inner class Point(var x: Float, var y: Float, var vel: PVector, var sizeFactor: Float, var color: Int) {
 
-        var drawSize = size
+        var drawSize: Float = 0.0f
+
+        init {
+            updateSize()
+        }
 
         fun update() {
             x += vel.x*settings.speedFactor
@@ -68,8 +71,7 @@ class Window : PApplet {
         }
 
         fun updateSize() {
-            val a: Float = (MaxSize.MAX-MinSize.MIN)/(size-MinSize.MIN)
-            drawSize = (settings.minSize+settings.maxSize)/a//((MinSize.MIN+MaxSize.MAX)/size)
+            drawSize = (sizeFactor*(settings.maxSize-settings.minSize))+settings.minSize
         }
 
         fun draw() {
@@ -90,7 +92,6 @@ class Window : PApplet {
     fun updatePointSize() {
         for (point in points) {
             point.updateSize()
-            println("${point.size} with ${(MaxSize.MAX-MinSize.MIN)/(point.size-MinSize.MIN)} -> ${point.drawSize} -- ${settings.minSize} bis ${settings.maxSize}")
         }
     }
 
@@ -121,7 +122,7 @@ class Window : PApplet {
             random(height.toFloat()),
             //random(depth.toFloat()),
             PVector(xVel, yVel),
-            random(MinSize.MIN, MaxSize.MAX),
+            (random(MinSize.MIN, MaxSize.MAX)-MinSize.MIN)/(MaxSize.MAX-MinSize.MIN),
             color(r, g, b)
         )
     }
