@@ -1,6 +1,6 @@
 package de.david.macroplex
 
-class Settings(var pointAmount: PointAmount, var maxSpeed: MaxSpeed, var minDist: MinDist, var minSize: MinSize, var maxSize: MaxSize, var frameSizeFactor: Float) {
+class Settings(var pointAmount: PointAmount, var speed: Speed, var minDist: MinDist, var minSize: MinSize, var maxSize: MaxSize, var frameSizeFactor: Float) {
 
     /*companion object {
         val DEFAULT_POINT_AMOUNT = 36
@@ -14,8 +14,8 @@ class Settings(var pointAmount: PointAmount, var maxSpeed: MaxSpeed, var minDist
     /*var pointAmount by property<Int>(36)
     fun pointAmountProperty() = getProperty(Settings::pointAmount)
 
-    var maxSpeed by property<Float>(1.8f)
-    fun maxSpeedProperty() = getProperty(Settings::maxSpeed)
+    var speed by property<Float>(1.8f)
+    fun speedProperty() = getProperty(Settings::speed)
 
     var minDist by property<Float>(210f)
     fun minDistProperty() = getProperty(Settings::minDist)
@@ -39,12 +39,12 @@ class PointAmount {
     }
 }
 
-class MaxSpeed {
+class Speed {
     var value = DEFAULT
     companion object {
         val DEFAULT = 1.8f
-        val MIN = 0.1
-        val MAX = 10
+        val MIN = 0f
+        val MAX = 10f
     }
 }
 
@@ -52,8 +52,8 @@ class MinDist {
     var value = DEFAULT
     companion object {
         val DEFAULT = 210f
-        val MIN = 1
-        val MAX = 1000
+        val MIN = 1f
+        val MAX = 1000f
     }
 }
 
@@ -61,8 +61,8 @@ class MinSize {
     var value = DEFAULT
     companion object {
         val DEFAULT = 3f
-        val MIN = 1
-        val MAX = 1000
+        val MIN = 1f
+        val MAX = 1000f
     }
 }
 
@@ -70,7 +70,7 @@ class MaxSize {
     var value = DEFAULT
     companion object {
         val DEFAULT = 12f
-        val MIN = 1
-        val MAX = 1000
+        val MIN = 1f
+        val MAX = 1000f
     }
 }

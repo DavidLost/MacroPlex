@@ -1,17 +1,20 @@
 package de.david.macroplex
 
-import de.david.macroplex.settings.*
 import javafx.scene.control.Label
 import processing.core.PApplet
 import tornadofx.*
 
 class SettingsView : View(MyApp.APP_NAME+" Settings") {
 
-    val currentSettings = Settings(PointAmount(), MaxSpeed(), MinDist(), MinSize(), MaxSize(), 1.5f)
-    var updateAvailable = false
+    companion object {
+        val NO_UPDATE = -1
+    }
+
+    val currentSettings = Settings(PointAmount(), Speed(), MinDist(), MinSize(), MaxSize(), 1.5f)
+    var updateState = NO_UPDATE
 
     lateinit var pointAmountLabel: Label
-    lateinit var maxSpeedLabel: Label
+    lateinit var speedLabel: Label
     lateinit var minDistLabel: Label
     lateinit var minSizeLabel: Label
     lateinit var maxSizeLabel: Label
@@ -48,7 +51,7 @@ class SettingsView : View(MyApp.APP_NAME+" Settings") {
                 valueProperty().onChange {
                     currentSettings.pointAmount.value = PApplet.round(it.toFloat())
                     pointAmountLabel.text = currentSettings.pointAmount.value.toString()
-                    updateAvailable = true
+                    updateState = 0
                 }
             }
 
@@ -59,22 +62,22 @@ class SettingsView : View(MyApp.APP_NAME+" Settings") {
         }
 
         hbox {
-            label("Max. Speed")
+            label("Speed")
 
-            slider(MaxSpeed.MIN, MaxSpeed.MAX) {
-                value = MaxSpeed.DEFAULT.toDouble()
+            slider(Speed.MIN, Speed.MAX) {
+                value = Speed.DEFAULT.toDouble()
                 majorTickUnit = max
                 prefWidth = 300.0
                 //showTickLabelsProperty().setValue(true)
                 valueProperty().onChange {
-                    currentSettings.maxSpeed.value = it.toFloat()
-                    updateLabelValue(maxSpeedLabel, currentSettings.maxSpeed.value)
-                    updateAvailable = true
+                    currentSettings.speed.value = it.toFloat()
+                    updateLabelValue(speedLabel, currentSettings.speed.value)
+                    updateState = 1
                 }
             }
 
-            label(MaxSpeed.DEFAULT.toString()) {
-                maxSpeedLabel = this
+            label(Speed.DEFAULT.toString()) {
+                speedLabel = this
             }
         }
 
@@ -88,7 +91,7 @@ class SettingsView : View(MyApp.APP_NAME+" Settings") {
                 valueProperty().onChange {
                     currentSettings.minDist.value = it.toFloat()
                     updateLabelValue(minDistLabel, currentSettings.minDist.value)
-                    updateAvailable = true
+                    updateState = 2
                 }
             }
 
@@ -108,7 +111,7 @@ class SettingsView : View(MyApp.APP_NAME+" Settings") {
                 valueProperty().onChange {
                     currentSettings.minSize.value = it.toFloat()
                     updateLabelValue(minSizeLabel, currentSettings.minSize.value)
-                    updateAvailable = true
+                    updateState = 3
                 }
             }
 
@@ -128,7 +131,7 @@ class SettingsView : View(MyApp.APP_NAME+" Settings") {
                 valueProperty().onChange {
                     currentSettings.maxSize.value = it.toFloat()
                     updateLabelValue(maxSizeLabel, currentSettings.maxSize.value)
-                    updateAvailable = true
+                    updateState = 4
                 }
             }
 
