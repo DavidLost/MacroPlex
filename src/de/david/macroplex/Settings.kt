@@ -1,6 +1,6 @@
 package de.david.macroplex
 
-class Settings(var pointAmount: Int, var speedFactor: Float, var connectionDistance: Float, var minSize: Float, var maxSize: Float, var frameSizeFactor: Float)
+class Settings(var pointAmount: Int, var speedFactor: Float, var connectionDistance: Float, var minSize: Float, var maxSize: Float)
 
 abstract class PointAmount {
     companion object {

@@ -4,6 +4,7 @@ import javafx.geometry.Pos
 import javafx.scene.control.Label
 import processing.core.PApplet
 import tornadofx.*
+import java.awt.Frame
 
 class SettingsView : View(MyApp.APP_NAME+" Settings") {
 
@@ -11,7 +12,7 @@ class SettingsView : View(MyApp.APP_NAME+" Settings") {
         val NO_UPDATE = -1
     }
 
-    val currentSettings = Settings(PointAmount.DEFAULT, SpeedFactor.DEFAULT, ConnectionDistance.DEFAULT, MinSize.DEFAULT, MaxSize.DEFAULT, 1.5f)
+    val currentSettings = Settings(PointAmount.DEFAULT, SpeedFactor.DEFAULT, ConnectionDistance.DEFAULT, MinSize.DEFAULT, MaxSize.DEFAULT)
     var updateState = NO_UPDATE
 
     lateinit var pointAmountLabel: Label

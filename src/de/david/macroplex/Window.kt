@@ -22,6 +22,7 @@ class Window : PApplet {
     override fun setup() {
 
         surface.toCenter(width, height)
+        surface.setResizable(true)
 
         for (i in 0 until settings.pointAmount) {
             points.add(getNewPoint())
@@ -30,10 +31,7 @@ class Window : PApplet {
 
     override fun draw() {
 
-        if (settingsController.updateState != SettingsView.NO_UPDATE) {
-            updatePointSettings(settingsController.updateState)
-            settingsController.updateState = SettingsView.NO_UPDATE
-        }
+        updateSettings()
 
         background(40)
         for (point in points) {
@@ -82,12 +80,17 @@ class Window : PApplet {
 
     }
 
-    fun updatePointSettings(index: Int) {
-        when (index) {
+    fun updateSettings() {
+
+        when (settingsController.updateState) {
+            SettingsView.NO_UPDATE -> return
             0 -> changePointAmount(settings.pointAmount)
             1 -> updatePointSize()
         }
+        settingsController.updateState = SettingsView.NO_UPDATE
     }
+
+
 
     fun updatePointSize() {
         for (point in points) {
