@@ -1,10 +1,7 @@
 package de.david.macroplex.gui
 
 import de.david.javalib.MonitorController
-import de.david.macroplex.MaxSize
-import de.david.macroplex.MinSize
-import de.david.macroplex.Settings
-import de.david.macroplex.toCenter
+import de.david.macroplex.*
 import processing.core.PApplet
 import processing.core.PVector
 
@@ -25,6 +22,7 @@ class Window : PApplet {
 
     override fun setup() {
 
+        surface.setTitle(MyApp.APP_NAME)
         surface.toCenter(width, height)
         surface.setResizable(true)
 
@@ -42,8 +40,13 @@ class Window : PApplet {
             point.update()
             for (point2 in points) {
                 val dist = dist(point.x, point.y, point2.x, point2.y)
-                if (dist < settings.connectionDistance) {
-                    stroke((red(point.color)+red(point2.color))/2,(green(point.color)+green(point2.color))/2, (blue(point.color)+blue(point2.color))/2, map(dist, settings.connectionDistance, 0f, 10f, 255f))
+                if (dist <= settings.connectionDistance) {
+                    stroke(
+                        (point.color.red+point2.color.red)/2f,
+                        (point.color.green+point2.color.green)/2f,
+                        (point.color.blue+point2.color.blue)/2f,
+                        map(dist, settings.connectionDistance, 0f, 10f, 255f)
+                    )
                     strokeWeight(map(dist, settings.connectionDistance, 0f, (point.drawSize+point2.drawSize)/20f, (point.drawSize+point2.drawSize)/6f))
                     line(point.x, point.y, point2.x, point2.y)
                 }
@@ -52,12 +55,14 @@ class Window : PApplet {
         }
     }
 
-    inner class Point(var x: Float, var y: Float, var vel: PVector, var sizeFactor: Float, var color: Int) {
+    inner class Point(var x: Float, var y: Float, var vel: PVector, var sizeFactor: Float) {
 
         var drawSize: Float = 0.0f
+        val color: Color = Color(0f, 0f, 0f, 0f)
 
         init {
             updateSize()
+            updateColor()
         }
 
         fun update() {
@@ -76,9 +81,20 @@ class Window : PApplet {
             drawSize = (sizeFactor*(settings.maxSize-settings.minSize))+settings.minSize
         }
 
+        fun updateColor() {
+            color.red = if (settings.color2.red >= settings.color1.red) random(settings.color1.red, settings.color2.red)
+                        else random(settings.color2.red, settings.color1.red)
+            color.green = if (settings.color2.green >= settings.color1.green) random(settings.color1.green, settings.color2.green)
+                          else random(settings.color2.green, settings.color1.green)
+            color.blue = if (settings.color2.blue >= settings.color1.blue) random(settings.color1.blue, settings.color2.blue)
+                         else random(settings.color2.blue, settings.color1.blue)
+            color.opacity = if (settings.color2.opacity >= settings.color1.opacity) random(settings.color1.opacity, settings.color2.opacity)
+                            else random(settings.color2.opacity, settings.color1.opacity)
+        }
+
         fun draw() {
             strokeWeight(drawSize)
-            stroke(color)
+            stroke(color.red, color.green, color.blue, color.opacity)
             point(x, y)
         }
 
@@ -88,13 +104,19 @@ class Window : PApplet {
 
         when (settingsController.updateState) {
             SettingsView.NO_UPDATE -> return
-            0 -> changePointAmount(settings.pointAmount)
-            1 -> updatePointSize()
+            SettingsView.POINT_AMOUNT_UPDATE -> changePointAmount()
+            SettingsView.POINT_SIZE_UPDATE -> updatePointSize()
+            SettingsView.POINT_COLOR_UPDATE -> updatePointColor()
         }
         settingsController.updateState = SettingsView.NO_UPDATE
     }
 
-
+    fun updatePointColor() {
+        println("color update")
+        for (point in points) {
+            point.updateColor()
+        }
+    }
 
     fun updatePointSize() {
         for (point in points) {
@@ -102,24 +124,21 @@ class Window : PApplet {
         }
     }
 
-    fun changePointAmount(newAmount: Int) {
-        if (newAmount == points.size) return
-        else if (newAmount > points.size) {
-            while (points.size < newAmount) {
+    fun changePointAmount() {
+        if (settings.pointAmount == points.size) return
+        else if (settings.pointAmount > points.size) {
+            while (points.size < settings.pointAmount) {
                 points.add(getNewPoint())
             }
         }
         else {
-            while (points.size > newAmount) {
+            while (points.size > settings.pointAmount) {
                 points.removeAt(0)
             }
         }
     }
 
     fun getNewPoint(): Point {
-        val r = random(25f)
-        val g = random(185f)+60f
-        val b = random(150f)+105f
         var xVel = random(0.1f, 1f)
         if (random(2f) > 1) xVel *= -1
         var yVel = random(0.1f, 1f)
@@ -127,13 +146,8 @@ class Window : PApplet {
         return Point(
             random(width.toFloat()),
             random(height.toFloat()),
-            //random(depth.toFloat()),
             PVector(xVel, yVel),
-            (random(
-                MinSize.MIN,
-                MaxSize.MAX
-            )- MinSize.MIN)/(MaxSize.MAX - MinSize.MIN),
-            color(r, g, b)
+            random(0f, 1f)
         )
     }
 }

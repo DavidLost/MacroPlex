@@ -10,6 +10,9 @@ class SettingsView : View(MyApp.APP_NAME +" Settings") {
 
     companion object {
         val NO_UPDATE = -1
+        val POINT_AMOUNT_UPDATE = 0
+        val POINT_SIZE_UPDATE = 1
+        val POINT_COLOR_UPDATE = 2
     }
 
     val currentSettings = Settings(
@@ -17,15 +20,11 @@ class SettingsView : View(MyApp.APP_NAME +" Settings") {
         SpeedFactor.DEFAULT,
         ConnectionDistance.DEFAULT,
         MinSize.DEFAULT,
-        MaxSize.DEFAULT
+        MaxSize.DEFAULT,
+        Color1.DEFAULT,
+        Color2.DEFAULT
     )
     var updateState = NO_UPDATE
-
-    lateinit var pointAmountLabel: Label
-    lateinit var speedFactorLabel: Label
-    lateinit var connectionDistanceLabel: Label
-    lateinit var minSizeLabel: Label
-    lateinit var maxSizeLabel: Label
 
     override fun onDock() {
 
@@ -59,13 +58,11 @@ class SettingsView : View(MyApp.APP_NAME +" Settings") {
                 //showTickLabelsProperty().setValue(true)
                 valueProperty().onChange {
                     currentSettings.pointAmount = PApplet.round(it.toFloat())
-                    pointAmountLabel.text = currentSettings.pointAmount.toString()
-                    updateState = 0
+                    (this@hbox.children.get(2) as Label).text = currentSettings.pointAmount.toString()
+                    updateState = POINT_AMOUNT_UPDATE
                 }
             }
-            label(PointAmount.DEFAULT.toString()) {
-                pointAmountLabel = this
-            }
+            label(PointAmount.DEFAULT.toString())
         }
 
         hbox {
@@ -78,12 +75,10 @@ class SettingsView : View(MyApp.APP_NAME +" Settings") {
                 //showTickLabelsProperty().setValue(true)
                 valueProperty().onChange {
                     currentSettings.speedFactor = it.toFloat()
-                    updateLabelValue(speedFactorLabel, currentSettings.speedFactor)
+                    updateLabelValue(this@hbox.children.get(2) as Label, currentSettings.speedFactor)
                 }
             }
-            label(SpeedFactor.DEFAULT.toString()) {
-                speedFactorLabel = this
-            }
+            label(SpeedFactor.DEFAULT.toString())
         }
 
         hbox {
@@ -98,12 +93,10 @@ class SettingsView : View(MyApp.APP_NAME +" Settings") {
                 prefWidth = 300.0
                 valueProperty().onChange {
                     currentSettings.connectionDistance = it.toFloat()
-                    updateLabelValue(connectionDistanceLabel, currentSettings.connectionDistance)
+                    updateLabelValue(this@hbox.children.get(2) as Label, currentSettings.connectionDistance)
                 }
             }
-            label(ConnectionDistance.DEFAULT.toString()) {
-                connectionDistanceLabel = this
-            }
+            label(ConnectionDistance.DEFAULT.toString())
         }
 
         hbox {
@@ -116,14 +109,12 @@ class SettingsView : View(MyApp.APP_NAME +" Settings") {
                 //showTickLabelsProperty().setValue(true)
                 valueProperty().onChange {
                     currentSettings.minSize = it.toFloat()
-                    updateLabelValue(minSizeLabel, currentSettings.minSize)
-                    updateState = 1
+                    updateLabelValue(this@hbox.children.get(2) as Label, currentSettings.minSize)
+                    updateState = POINT_SIZE_UPDATE
                 }
             }
 
-            label(MinSize.DEFAULT.toString()) {
-                minSizeLabel = this
-            }
+            label(MinSize.DEFAULT.toString())
         }
 
         hbox {
@@ -136,12 +127,38 @@ class SettingsView : View(MyApp.APP_NAME +" Settings") {
                 //showTickLabelsProperty().setValue(true)
                 valueProperty().onChange {
                     currentSettings.maxSize = it.toFloat()
-                    updateLabelValue(maxSizeLabel, currentSettings.maxSize)
-                    updateState = 1
+                    updateLabelValue(this@hbox.children.get(2) as Label, currentSettings.maxSize)
+                    updateState = POINT_SIZE_UPDATE
                 }
             }
-            label(MaxSize.DEFAULT.toString()) {
-                maxSizeLabel = this
+            label(MaxSize.DEFAULT.toString())
+        }
+
+        hbox(10) {
+            alignment = Pos.CENTER
+            label("Point Color 1:")
+            colorpicker(Color1.DEFAULT.toJavaFxColor()) {
+                setOnAction {
+                    currentSettings.color1 = value.toProcessingCustomizedColor()
+                    updateState = POINT_COLOR_UPDATE
+                }
+            }
+            label("2:")
+            colorpicker(Color2.DEFAULT.toJavaFxColor()) {
+                setOnAction {
+                    currentSettings.color2 = value.toProcessingCustomizedColor()
+                    updateState = POINT_COLOR_UPDATE
+                }
+            }
+        }
+
+        hbox(10) {
+            alignment = Pos.CENTER
+            label("Connection Color")
+            colorpicker(Color1.DEFAULT.toJavaFxColor()) {
+                setOnAction {
+                    currentSettings.color1 = value.toProcessingCustomizedColor()
+                }
             }
         }
     }
