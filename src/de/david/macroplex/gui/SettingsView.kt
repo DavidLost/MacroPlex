@@ -46,7 +46,11 @@ class SettingsView : View(MyApp.APP_NAME +" Settings") {
             "--location=0,0",
             MyApp.APP_NAME
         )
-        PApplet.runSketch(args, Window(this, currentSettings))
+        val simulationThread = Thread(Runnable {
+            PApplet.runSketch(args, Window(this, currentSettings))
+        })
+        simulationThread.priority = Thread.MAX_PRIORITY
+        simulationThread.start()
     }
 
     override val root = vbox(20) {

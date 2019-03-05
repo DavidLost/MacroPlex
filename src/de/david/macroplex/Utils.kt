@@ -5,7 +5,7 @@ import javafx.scene.paint.Color
 import processing.core.PSurface
 
 //Processing Utils:
-fun PSurface.toCenter(width: Int, height: Int) {
+fun PSurface.centerOnScreen(width: Int, height: Int) {
     this.setLocation(MonitorController.getWidth()/2-width/2, MonitorController.getHeight()/2-height/2)
 }
 

@@ -4,11 +4,13 @@
     <root id="archive" name="Macro Plex.jar">
       <element id="module-output" name="Macro Plex" />
       <element id="extracted-dir" path="D:/Bibliotheken/Dokumente/Java Librarays/Processing/core.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/Bibliotheken/Dokumente/Java Librarays/tornadofx-1.7.17.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$KOTLIN_BUNDLED$/lib/kotlin-stdlib.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$KOTLIN_BUNDLED$/lib/kotlin-reflect.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$KOTLIN_BUNDLED$/lib/kotlin-test.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$KOTLIN_BUNDLED$/lib/kotlin-stdlib-jdk7.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$KOTLIN_BUNDLED$/lib/kotlin-stdlib-jdk8.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/Bibliotheken/Dokumente/Java Librarays/DavidsJavaLib.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

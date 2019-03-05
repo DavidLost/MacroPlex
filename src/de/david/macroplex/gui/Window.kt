@@ -23,7 +23,7 @@ class Window : PApplet {
     override fun setup() {
 
         surface.setTitle(MyApp.APP_NAME)
-        surface.toCenter(width, height)
+        surface.centerOnScreen(width, height)
         surface.setResizable(true)
 
         for (i in 0 until settings.pointAmount) {
@@ -43,7 +43,7 @@ class Window : PApplet {
             for (point2 in points) {
                 val dist = dist(point1.x, point1.y, point2.x, point2.y)
                 if (dist <= settings.connectionDistance) {
-                    var r = 0f; var g = 0f; var b = 0f; var o = 0f
+                    val r: Float; val g: Float; val b: Float; val o: Float
                     if (settings.calcConnectionColor) {
                         r = (point1.color.red+point2.color.red)/2f
                         g = (point1.color.green+point2.color.green)/2f
@@ -54,7 +54,7 @@ class Window : PApplet {
                         r = settings.connectionColor.red
                         g = settings.connectionColor.green
                         b = settings.connectionColor.blue
-                        o = settings.connectionColor.opacity
+                        o = map(dist, settings.connectionDistance, 0f, 0f, settings.connectionColor.opacity)
                     }
                     stroke(r, g, b, o)
                     strokeWeight(map(dist, settings.connectionDistance, 0f, (point1.drawSize+point2.drawSize)/20f, (point1.drawSize+point2.drawSize)/6f))
