@@ -35,22 +35,34 @@ class Window : PApplet {
 
         updateSettings()
 
-        background(40)
+        background(settings.backgroundColor.red, settings.backgroundColor.green, settings.backgroundColor.blue, settings.backgroundColor.opacity)
         for (point in points) {
             point.update()
+        }
+        for (point1 in points) {
             for (point2 in points) {
-                val dist = dist(point.x, point.y, point2.x, point2.y)
+                val dist = dist(point1.x, point1.y, point2.x, point2.y)
                 if (dist <= settings.connectionDistance) {
-                    stroke(
-                        (point.color.red+point2.color.red)/2f,
-                        (point.color.green+point2.color.green)/2f,
-                        (point.color.blue+point2.color.blue)/2f,
-                        map(dist, settings.connectionDistance, 0f, 10f, 255f)
-                    )
-                    strokeWeight(map(dist, settings.connectionDistance, 0f, (point.drawSize+point2.drawSize)/20f, (point.drawSize+point2.drawSize)/6f))
-                    line(point.x, point.y, point2.x, point2.y)
+                    var r = 0f; var g = 0f; var b = 0f; var o = 0f
+                    if (settings.calcConnectionColor) {
+                        r = (point1.color.red+point2.color.red)/2f
+                        g = (point1.color.green+point2.color.green)/2f
+                        b = (point1.color.blue+point2.color.blue)/2f
+                        o = map(dist, settings.connectionDistance, 0f, 0f, (point1.color.opacity+point2.color.opacity)/2)
+                    }
+                    else {
+                        r = settings.connectionColor.red
+                        g = settings.connectionColor.green
+                        b = settings.connectionColor.blue
+                        o = settings.connectionColor.opacity
+                    }
+                    stroke(r, g, b, o)
+                    strokeWeight(map(dist, settings.connectionDistance, 0f, (point1.drawSize+point2.drawSize)/20f, (point1.drawSize+point2.drawSize)/6f))
+                    line(point1.x, point1.y, point2.x, point2.y)
                 }
             }
+        }
+        for (point in points) {
             point.draw()
         }
     }

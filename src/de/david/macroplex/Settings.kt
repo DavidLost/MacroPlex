@@ -6,6 +6,7 @@ class Settings(var pointAmount: Int,
                var minSize: Float, var maxSize: Float,
                var color1: Color, var color2: Color,
                var connectionColor: Color,
+               var calcConnectionColor: Boolean,
                var backgroundColor: Color
 )
 
@@ -58,6 +59,18 @@ abstract class Color1 {
 abstract class Color2 {
     companion object {
         val DEFAULT = Color(10f, 255f, 255f, 255f)
+    }
+}
+
+abstract class ConnectionColor {
+    companion object {
+        val DEFAULT = Color(0f, 0f, 0f, 255f)
+    }
+}
+
+abstract class BackgroundColor {
+    companion object {
+        val DEFAULT = Color(45f, 45f, 45f, 255f)
     }
 }
 

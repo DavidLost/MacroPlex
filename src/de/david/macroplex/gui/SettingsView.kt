@@ -22,15 +22,18 @@ class SettingsView : View(MyApp.APP_NAME +" Settings") {
         MinSize.DEFAULT,
         MaxSize.DEFAULT,
         Color1.DEFAULT,
-        Color2.DEFAULT
+        Color2.DEFAULT,
+        ConnectionColor.DEFAULT,
+        true,
+        BackgroundColor.DEFAULT
     )
     var updateState = NO_UPDATE
 
     override fun onDock() {
 
         startSimulation()
-        primaryStage.width = 630.0
-        primaryStage.height = 320.0
+        primaryStage.width = 700.0
+        primaryStage.height = 520.0
         primaryStage.isResizable = false
         primaryStage.centerOnScreen()
         primaryStage.toFront()
@@ -155,9 +158,25 @@ class SettingsView : View(MyApp.APP_NAME +" Settings") {
         hbox(10) {
             alignment = Pos.CENTER
             label("Connection Color")
-            colorpicker(Color1.DEFAULT.toJavaFxColor()) {
+            colorpicker(ConnectionColor.DEFAULT.toJavaFxColor()) {
                 setOnAction {
-                    currentSettings.color1 = value.toProcessingCustomizedColor()
+                    currentSettings.connectionColor = value.toProcessingCustomizedColor()
+                }
+            }
+            checkbox("Auto Calculate") {
+                isSelected = true
+                action {
+                    currentSettings.calcConnectionColor = isSelected
+                }
+            }
+        }
+
+        hbox {
+            alignment = Pos.CENTER
+            label("Background Color")
+            colorpicker(BackgroundColor.DEFAULT.toJavaFxColor()) {
+                setOnAction {
+                    currentSettings.backgroundColor = value.toProcessingCustomizedColor()
                 }
             }
         }
