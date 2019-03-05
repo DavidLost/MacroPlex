@@ -12,7 +12,7 @@ class Settings(var pointAmount: Int,
 
 abstract class PointAmount {
     companion object {
-        val DEFAULT = 52
+        val DEFAULT = 54
         val MIN = 0
         val MAX = 300
     }
@@ -28,7 +28,7 @@ abstract class SpeedFactor {
 
 abstract class ConnectionDistance {
     companion object {
-        val DEFAULT = 210f
+        val DEFAULT = 216f
         val MIN = 1f
         val MAX = 1000f
     }

@@ -8,6 +8,8 @@ import tornadofx.*
 
 class SettingsView : View(MyApp.APP_NAME +" Settings") {
 
+    val horizontalItemPadding = 8
+
     companion object {
         val NO_UPDATE = -1
         val POINT_AMOUNT_UPDATE = 0
@@ -51,7 +53,7 @@ class SettingsView : View(MyApp.APP_NAME +" Settings") {
 
         alignment = Pos.CENTER
 
-        hbox {
+        hbox(horizontalItemPadding) {
             alignment = Pos.CENTER
             label("Point Amount")
             slider(PointAmount.MIN, PointAmount.MAX) {
@@ -68,7 +70,7 @@ class SettingsView : View(MyApp.APP_NAME +" Settings") {
             label(PointAmount.DEFAULT.toString())
         }
 
-        hbox {
+        hbox(horizontalItemPadding) {
             alignment = Pos.CENTER
             label("SpeedFactor")
             slider(SpeedFactor.MIN, SpeedFactor.MAX) {
@@ -84,7 +86,7 @@ class SettingsView : View(MyApp.APP_NAME +" Settings") {
             label(SpeedFactor.DEFAULT.toString())
         }
 
-        hbox {
+        hbox(horizontalItemPadding) {
             alignment = Pos.CENTER
             label("Connecting Distance")
             slider(
@@ -102,7 +104,7 @@ class SettingsView : View(MyApp.APP_NAME +" Settings") {
             label(ConnectionDistance.DEFAULT.toString())
         }
 
-        hbox {
+        hbox(horizontalItemPadding) {
             alignment = Pos.CENTER
             label("Min. Size")
             slider(MinSize.MIN, MinSize.MAX) {
@@ -116,11 +118,10 @@ class SettingsView : View(MyApp.APP_NAME +" Settings") {
                     updateState = POINT_SIZE_UPDATE
                 }
             }
-
             label(MinSize.DEFAULT.toString())
         }
 
-        hbox {
+        hbox(horizontalItemPadding) {
             alignment = Pos.CENTER
             label("Max. Size")
             slider(MaxSize.MIN, MaxSize.MAX) {
@@ -137,7 +138,7 @@ class SettingsView : View(MyApp.APP_NAME +" Settings") {
             label(MaxSize.DEFAULT.toString())
         }
 
-        hbox(10) {
+        hbox(horizontalItemPadding) {
             alignment = Pos.CENTER
             label("Point Color 1:")
             colorpicker(Color1.DEFAULT.toJavaFxColor()) {
@@ -155,7 +156,7 @@ class SettingsView : View(MyApp.APP_NAME +" Settings") {
             }
         }
 
-        hbox(10) {
+        hbox(horizontalItemPadding) {
             alignment = Pos.CENTER
             label("Connection Color")
             colorpicker(ConnectionColor.DEFAULT.toJavaFxColor()) {
@@ -171,7 +172,7 @@ class SettingsView : View(MyApp.APP_NAME +" Settings") {
             }
         }
 
-        hbox {
+        hbox(horizontalItemPadding) {
             alignment = Pos.CENTER
             label("Background Color")
             colorpicker(BackgroundColor.DEFAULT.toJavaFxColor()) {
