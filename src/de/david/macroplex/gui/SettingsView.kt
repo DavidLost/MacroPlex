@@ -1,6 +1,7 @@
 package de.david.macroplex.gui
 
 import de.david.macroplex.*
+import javafx.beans.property.SimpleIntegerProperty
 import javafx.geometry.Pos
 import javafx.scene.control.Label
 import processing.core.PApplet
@@ -9,6 +10,11 @@ import tornadofx.*
 class SettingsView : View(MyApp.APP_NAME +" Settings") {
 
     val horizontalItemPadding = 8
+    val updateState = SimpleIntegerProperty(NO_UPDATE)
+
+    /*init {
+        Thread.currentThread().priority = Thread.MAX_PRIORITY
+    }*/
 
     companion object {
         val NO_UPDATE = -1
@@ -29,7 +35,6 @@ class SettingsView : View(MyApp.APP_NAME +" Settings") {
         true,
         BackgroundColor.DEFAULT
     )
-    var updateState = NO_UPDATE
 
     override fun onDock() {
 
@@ -47,7 +52,7 @@ class SettingsView : View(MyApp.APP_NAME +" Settings") {
             MyApp.APP_NAME
         )
         val simulationThread = Thread(Runnable {
-            PApplet.runSketch(args, Window(this, currentSettings))
+            PApplet.runSketch(args, Window(currentSettings, updateState))
         })
         simulationThread.priority = Thread.MAX_PRIORITY
         simulationThread.start()
@@ -68,7 +73,7 @@ class SettingsView : View(MyApp.APP_NAME +" Settings") {
                 valueProperty().onChange {
                     currentSettings.pointAmount = PApplet.round(it.toFloat())
                     (this@hbox.children.get(2) as Label).text = currentSettings.pointAmount.toString()
-                    updateState = POINT_AMOUNT_UPDATE
+                    updateState.value = POINT_AMOUNT_UPDATE
                 }
             }
             label(PointAmount.DEFAULT.toString())
@@ -119,7 +124,7 @@ class SettingsView : View(MyApp.APP_NAME +" Settings") {
                 valueProperty().onChange {
                     currentSettings.minSize = it.toFloat()
                     updateLabelValue(this@hbox.children.get(2) as Label, currentSettings.minSize)
-                    updateState = POINT_SIZE_UPDATE
+                    updateState.value = POINT_SIZE_UPDATE
                 }
             }
             label(MinSize.DEFAULT.toString())
@@ -136,7 +141,7 @@ class SettingsView : View(MyApp.APP_NAME +" Settings") {
                 valueProperty().onChange {
                     currentSettings.maxSize = it.toFloat()
                     updateLabelValue(this@hbox.children.get(2) as Label, currentSettings.maxSize)
-                    updateState = POINT_SIZE_UPDATE
+                    updateState.value = POINT_SIZE_UPDATE
                 }
             }
             label(MaxSize.DEFAULT.toString())
@@ -148,14 +153,14 @@ class SettingsView : View(MyApp.APP_NAME +" Settings") {
             colorpicker(Color1.DEFAULT.toJavaFxColor()) {
                 setOnAction {
                     currentSettings.color1 = value.toProcessingCustomizedColor()
-                    updateState = POINT_COLOR_UPDATE
+                    updateState.value = POINT_COLOR_UPDATE
                 }
             }
             label("2:")
             colorpicker(Color2.DEFAULT.toJavaFxColor()) {
                 setOnAction {
                     currentSettings.color2 = value.toProcessingCustomizedColor()
-                    updateState = POINT_COLOR_UPDATE
+                    updateState.value = POINT_COLOR_UPDATE
                 }
             }
         }

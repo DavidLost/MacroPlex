@@ -2,18 +2,19 @@ package de.david.macroplex.gui
 
 import de.david.javalib.MonitorController
 import de.david.macroplex.*
+import javafx.beans.property.SimpleIntegerProperty
 import processing.core.PApplet
 import processing.core.PVector
 
 class Window : PApplet {
 
-    val settingsController: SettingsView
-    val points = ArrayList<Point>()
     val settings: Settings
+    val updateState: SimpleIntegerProperty
+    val points = ArrayList<Point>()
 
-    constructor(settingsController: SettingsView, currentSettings: Settings) {
-        this.settingsController = settingsController
+    constructor(currentSettings: Settings, updateState: SimpleIntegerProperty) {
         this.settings = currentSettings
+        this.updateState = updateState
     }
 
     override fun settings() {
@@ -33,12 +34,21 @@ class Window : PApplet {
 
     override fun draw() {
 
+        //updating
         updateSettings()
-
-        background(settings.backgroundColor.red, settings.backgroundColor.green, settings.backgroundColor.blue, settings.backgroundColor.opacity)
         for (point in points) {
             point.update()
         }
+
+        //drawing
+        background(settings.backgroundColor.red, settings.backgroundColor.green, settings.backgroundColor.blue, settings.backgroundColor.opacity)
+        drawLinesBetweenPoints()
+        for (point in points) {
+            point.draw()
+        }
+    }
+
+    fun drawLinesBetweenPoints() {
         for (point1 in points) {
             for (point2 in points) {
                 val dist = dist(point1.x, point1.y, point2.x, point2.y)
@@ -61,9 +71,6 @@ class Window : PApplet {
                     line(point1.x, point1.y, point2.x, point2.y)
                 }
             }
-        }
-        for (point in points) {
-            point.draw()
         }
     }
 
@@ -114,17 +121,17 @@ class Window : PApplet {
 
     fun updateSettings() {
 
-        when (settingsController.updateState) {
+        when (updateState.value) {
             SettingsView.NO_UPDATE -> return
             SettingsView.POINT_AMOUNT_UPDATE -> changePointAmount()
             SettingsView.POINT_SIZE_UPDATE -> updatePointSize()
             SettingsView.POINT_COLOR_UPDATE -> updatePointColor()
         }
-        settingsController.updateState = SettingsView.NO_UPDATE
+        println("update")
+        updateState.value = SettingsView.NO_UPDATE
     }
 
     fun updatePointColor() {
-        println("color update")
         for (point in points) {
             point.updateColor()
         }
